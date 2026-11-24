@@ -1,0 +1,28 @@
+server:
+  port: 8002
+  ssl:
+    enabled: true
+    bundle: server
+    client-auth: need          # mTLS : certificat client obligatoire
+    enabled-protocols: TLSv1.3
+
+spring:
+  main:
+    banner-mode: off
+  ssl:
+    bundle:
+      pem:
+        server:
+          keystore:
+            certificate: file:/run/secrets/notification_cert
+            private-key: file:/run/secrets/notification_key
+          truststore:
+            certificate: file:/run/secrets/ca_cert   # CA qui signe les certificats clients
+
+# Variables obligatoires : si l'une manque, le service refuse de démarrer
+app:
+  oidc:
+    issuer: ${OIDC_ISSUER}
+    jwks-url: ${OIDC_JWKS_URL}
+    audience: ${OIDC_AUDIENCE}
+    allowed-client-ids: ${ALLOWED_CLIENT_IDS}

@@ -1,11 +1,3 @@
-__pycache__/
-*.pyc
-.venv/
-venv/
-.env
-.git/
-.gitignore
-*.pem
-*.key
-secrets/
-.pytest_cache/
+target/
+.idea/
+*.iml
