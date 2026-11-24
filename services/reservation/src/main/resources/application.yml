@@ -1,0 +1,32 @@
+server:
+  port: 8001            # HTTP : le TLS est terminé par Caddy
+
+spring:
+  main:
+    banner-mode: off
+  mvc:
+    static-path-pattern: /static/**
+  ssl:
+    bundle:
+      pem:
+        client:         # certificat client mTLS utilisé pour appeler Notification
+          keystore:
+            certificate: file:${TLS_CERT}
+            private-key: file:${TLS_KEY}
+          truststore:
+            certificate: file:${TLS_CA}
+
+# Variables obligatoires : si l'une manque, le service refuse de démarrer
+app:
+  oidc:
+    issuer: ${OIDC_ISSUER}
+    jwks-url: ${OIDC_JWKS_URL}
+    audience: ${OIDC_AUDIENCE}
+    allowed-client-ids: ${ALLOWED_CLIENT_IDS}
+  token-url: ${OIDC_TOKEN_URL}
+  users-url: ${KEYCLOAK_USERS_URL}
+  notification-url: ${NOTIFICATION_URL}
+  service-client-id: ${OIDC_CLIENT_ID}
+  service-client-secret-file: ${OIDC_CLIENT_SECRET_FILE}
+  registration-secret-file: ${REGISTRATION_CLIENT_SECRET_FILE}
+  user-client-id: reservation-web
